@@ -1,6 +1,6 @@
 const CART_KEY = 'partyTrailerEnquiryCart';
 const INTEREST_KEY = 'partyTrailerInterestLog';
-const BASE_HIRE = 349;
+const BASE_HIRE = 250;
 
 function readCart() {
   try { return JSON.parse(localStorage.getItem(CART_KEY)) || []; }
