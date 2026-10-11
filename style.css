@@ -62,7 +62,7 @@ a{color:inherit;text-decoration:none}
 .hero{position:relative;isolation:isolate;overflow:hidden;color:#fff}
 .hero-bg{
   position:absolute;inset:0;z-index:-2;
-  background-image:url('https://images.unsplash.com/photo-1530103862676-de8c9debad1d?auto=format&fit=crop&w=1800&q=70');
+  background-image:url('assets/images/hero-southern-alps-trailer.png');
   background-size:cover;background-position:center;
   transform:scale(1.05);
 }
@@ -110,8 +110,8 @@ a{color:inherit;text-decoration:none}
 .loc{background:#fff;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow)}
 .loc-img{aspect-ratio:4/3;background-size:cover;background-position:center}
 .loc-chc{background-image:url('https://images.unsplash.com/photo-1589148938906-39b1c3b0fc27?auto=format&fit=crop&w=900&q=70')}
-.loc-qt{background-image:url('https://images.unsplash.com/photo-1507699622108-4be3abd695ad?auto=format&fit=crop&w=900&q=70')}
-.loc-akl{background-image:url('https://images.unsplash.com/photo-1595152772835-219674b2a8a6?auto=format&fit=crop&w=900&q=70')}
+.loc-qt{background-image:url('assets/images/queenstown-vineyard-trailer.png')}
+.loc-akl{background-image:url('assets/images/auckland-backyard-party.png')}
 .loc-wlg{background-image:url('https://images.unsplash.com/photo-1565019001609-05a1efc7b1c6?auto=format&fit=crop&w=900&q=70')}
 .loc h3{margin:14px 16px 4px;font-size:19px}
 .loc p{margin:0 16px 10px;color:var(--muted);font-size:14px}
@@ -120,7 +120,7 @@ a{color:inherit;text-decoration:none}
 /* ---------- Split (What's inside) ---------- */
 .split{display:grid;grid-template-columns:1.1fr 1fr;gap:36px;align-items:center;margin-top:12px}
 .split-img{border-radius:var(--radius);aspect-ratio:4/3;background-size:cover;background-position:center;box-shadow:var(--shadow)}
-.split-img-trailer{background-image:url('https://images.unsplash.com/photo-1520869309377-88f1e4ab35f8?auto=format&fit=crop&w=1200&q=70')}
+.split-img-trailer{background-image:url('assets/images/basic-trailer-outdoor-setup.png')}
 .feature-list{list-style:none;padding:0;margin:0;display:grid;gap:12px}
 .feature-list li{
   background:rgba(255,255,255,.06);
@@ -142,31 +142,30 @@ a{color:inherit;text-decoration:none}
 .price{font-family:'Bebas Neue',sans-serif;font-size:24px;color:var(--accent)}
 .chip{font-size:11px;background:rgba(31,143,135,.12);color:var(--teal);padding:4px 8px;border-radius:999px;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
 
-.ad-tent{background-image:url('https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=900&q=70')}
-.ad-sun{background-image:url('https://images.unsplash.com/photo-1533777857889-4be7c70b33f7?auto=format&fit=crop&w=900&q=70')}
-.ad-arch{background-image:url('https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=900&q=70')}
-.ad-fire{background-image:url('https://images.unsplash.com/photo-1478035343288-a7fcf063c0b4?auto=format&fit=crop&w=900&q=70')}
-.ad-dj{background-image:url('https://images.unsplash.com/photo-1516280906200-fa520781bd90?auto=format&fit=crop&w=900&q=70')}
-.ad-bar{background-image:url('https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&w=900&q=70')}
-.ad-dance{background-image:url('https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6a3?auto=format&fit=crop&w=900&q=70')}
-.ad-photo{background-image:url('https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&w=900&q=70')}
-.ad-heater{background-image:url('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=900&q=70')}
-.ad-kids{background-image:url('https://images.unsplash.com/photo-1464349095431-e9a21285b5f3?auto=format&fit=crop&w=900&q=70')}
-.ad-karaoke{background-image:url('https://images.unsplash.com/photo-1516280440614-37939bbacd81?auto=format&fit=crop&w=900&q=70')}
-.ad-setup{background-image:url('https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?auto=format&fit=crop&w=900&q=70')}
+.ad-tent{background-image:url('assets/images/addon-event-marquee.png')}
+.ad-sun{background-image:url('assets/images/addon-shade-sails.png')}
+.ad-arch{background-image:url('assets/images/addon-timber-arch.png')}
+.ad-fire{background-image:url('assets/images/addon-fire-pit.png')}
+.ad-dj{background-image:url('assets/images/addon-dj-lighting.png')}
+.ad-bar{background-image:url('assets/images/addon-timber-bar.png')}
+.ad-dance{background-image:url('assets/images/addon-dance-floor.png')}
+.ad-photo{background-image:url('assets/images/addon-photo-booth.png')}
+.ad-heater{background-image:url('assets/images/addon-patio-heaters.png')}
+.ad-kids{background-image:url('assets/images/addon-kids-zone.png')}
+.ad-karaoke{background-image:url('assets/images/addon-karaoke.png')}
+.ad-setup{background-image:url('assets/images/addon-full-setup.png')}
 
 /* ---------- Gallery ---------- */
 .gallery{
   display:grid;grid-template-columns:repeat(6,1fr);grid-auto-rows:140px;gap:10px;margin-bottom:36px;
 }
 .g{border-radius:12px;background-size:cover;background-position:center;box-shadow:var(--shadow)}
-.g1{grid-column:span 2;grid-row:span 2;background-image:url('https://images.unsplash.com/photo-1530023367847-a683933f4172?auto=format&fit=crop&w=1200&q=70')}
-.g2{grid-column:span 2;background-image:url('https://images.unsplash.com/photo-1522158637959-30385a09e0da?auto=format&fit=crop&w=900&q=70')}
-.g3{grid-column:span 2;background-image:url('https://images.unsplash.com/photo-1533294455009-a77b7557d2d1?auto=format&fit=crop&w=900&q=70')}
-.g4{grid-column:span 2;background-image:url('https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?auto=format&fit=crop&w=900&q=70')}
-.g5{grid-column:span 2;background-image:url('https://images.unsplash.com/photo-1519671482749-fd09be7ccebf?auto=format&fit=crop&w=900&q=70')}
-
-.g6{grid-column:span 2;background-image:url('https://images.unsplash.com/photo-1515169067868-5387ec356754?auto=format&fit=crop&w=1200&q=70')}
+.g1{grid-column:span 2;grid-row:span 2;background-image:url('assets/images/auckland-backyard-party.png')}
+.g2{grid-column:span 2;background-image:url('assets/images/yard-games-giant-jenga.png')}
+.g3{grid-column:span 2;background-image:url('assets/images/queenstown-vineyard-trailer.png')}
+.g4{grid-column:span 2;background-image:url('assets/images/trailer-loaded-backyard.png')}
+.g5{grid-column:span 2;background-image:url('assets/images/hero-southern-alps-trailer.png')}
+.g6{grid-column:span 2;background-image:url('assets/images/yard-games-giant-jenga.png')}
 
 .quotes{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
 .quotes blockquote{
