@@ -13,6 +13,8 @@ function saveCart(cart) {
 
 function recordInterest(action, addon) {
   const entry = { action, addon, at: new Date().toISOString() };
+  window.dataLayer = window.dataLayer || [];
+  window.dataLayer.push({ event: 'party_trailer_interest', ...entry });
   try {
     const log = JSON.parse(localStorage.getItem(INTEREST_KEY)) || [];
     localStorage.setItem(INTEREST_KEY, JSON.stringify([...log, entry].slice(-100)));
