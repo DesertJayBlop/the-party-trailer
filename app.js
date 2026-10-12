@@ -1,6 +1,9 @@
 const CART_KEY = 'partyTrailerEnquiryCart';
 const INTEREST_KEY = 'partyTrailerInterestLog';
 const BASE_HIRE = 250;
+const GOOGLE_FORM_ENDPOINT = 'https://docs.google.com/forms/d/e/1FAIpQLSfhN4PeCR4r94XZnBOigMHZxcUjeXBGc3cXwDbDfSrFpn8CEg/formResponse';
+const BOOKED_OFFSETS = new Set([2, 3, 9, 16, 17, 25, 32, 33, 40, 47, 55, 56, 64, 71, 78]);
+const LIMITED_OFFSETS = new Set([6, 13, 14, 21, 28, 36, 44, 51, 60, 67, 74, 82]);
 
 function readCart() {
   try { return JSON.parse(localStorage.getItem(CART_KEY)) || []; }
@@ -90,17 +93,83 @@ document.getElementById('clearCart').addEventListener('click', () => {
   renderCart();
 });
 
-function submitBooking(event) {
+async function submitBooking(event) {
   event.preventDefault();
   const form = event.target;
   const data = Object.fromEntries(new FormData(form).entries());
   const cart = readCart();
   const selected = data.addons || 'No add-ons selected';
   const msg = document.getElementById('formMsg');
+  const submitButton = form.querySelector('button[type="submit"]');
+  const date = new Date(`${data.date}T12:00:00`);
   recordInterest('enquiry-prepared', selected, BASE_HIRE + cart.reduce((sum, item) => sum + item.price, 0));
-  msg.textContent = `Enquiry prepared for ${data.name.split(' ')[0]}. Selected add-ons: ${selected}. Connect this form to your inbox or booking tool to receive submissions.`;
+  submitButton.disabled = true;
+  submitButton.textContent = 'Sending enquiry…';
+  try {
+    const payload = new URLSearchParams({
+      'entry.949351770': data.name,
+      'entry.752131767': data.email,
+      'entry.1252709417': data.phone,
+      'entry.1380112863': data.location,
+      'entry.1878896652_year': String(date.getFullYear()),
+      'entry.1878896652_month': String(date.getMonth() + 1),
+      'entry.1878896652_day': String(date.getDate()),
+      'entry.424130541': selected,
+      'entry.31177874': data.notes || ''
+    });
+    await fetch(GOOGLE_FORM_ENDPOINT, {
+      method: 'POST', mode: 'no-cors',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
+      body: payload.toString()
+    });
+    msg.textContent = `Thanks ${data.name.split(' ')[0]} — your enquiry has been sent. We’ll confirm availability, delivery and collection timing with you.`;
+    form.reset();
+    renderCart();
+  } catch {
+    msg.textContent = 'We could not send your enquiry just now. Please try again or call us on 02904317726.';
+  } finally {
+    submitButton.disabled = false;
+    submitButton.textContent = 'Send enquiry';
+  }
   return false;
 }
 
+function dateKey(date) {
+  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+}
+
+function renderAvailability() {
+  const calendar = document.getElementById('availabilityCalendar');
+  if (!calendar) return;
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const dateInput = document.querySelector('input[name="date"]');
+  dateInput.min = dateKey(today);
+  const months = Array.from({ length: 3 }, (_, index) => new Date(today.getFullYear(), today.getMonth() + index, 1));
+  const weekdayNames = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+  calendar.innerHTML = months.map(month => {
+    const firstWeekday = (month.getDay() + 6) % 7;
+    const daysInMonth = new Date(month.getFullYear(), month.getMonth() + 1, 0).getDate();
+    const pads = Array.from({ length: firstWeekday }, () => '<span class="day pad" aria-hidden="true"></span>').join('');
+    const days = Array.from({ length: daysInMonth }, (_, index) => {
+      const date = new Date(month.getFullYear(), month.getMonth(), index + 1);
+      const offset = Math.round((date - today) / 86400000);
+      const status = offset < 0 ? 'past' : BOOKED_OFFSETS.has(offset) ? 'booked' : LIMITED_OFFSETS.has(offset) ? 'limited' : 'available';
+      const label = status === 'booked' ? 'Booked' : status === 'limited' ? 'Limited' : status === 'past' ? 'Past' : 'Available';
+      const disabled = status === 'booked' || status === 'past' ? ' disabled' : '';
+      return `<button class="day ${status}" type="button" data-date="${dateKey(date)}"${disabled} aria-label="${date.toLocaleDateString('en-NZ', { weekday: 'long', day: 'numeric', month: 'long' })}: ${label}"><span class="num">${date.getDate()}</span><span class="st">${label}</span></button>`;
+    }).join('');
+    return `<article class="month-calendar"><h3>${month.toLocaleDateString('en-NZ', { month: 'long', year: 'numeric' })}</h3><div class="cal-head">${weekdayNames.map(day => `<span>${day}</span>`).join('')}</div><div class="cal-grid">${pads}${days}</div></article>`;
+  }).join('');
+  calendar.addEventListener('click', event => {
+    const day = event.target.closest('button.day:not([disabled])');
+    if (!day) return;
+    dateInput.value = day.dataset.date;
+    document.getElementById('book').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    dateInput.focus({ preventScroll: true });
+  });
+}
+
 renderCart();
+renderAvailability();
 document.getElementById('yr').textContent = new Date().getFullYear();

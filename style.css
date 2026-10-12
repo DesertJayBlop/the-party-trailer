@@ -176,17 +176,23 @@ a{color:inherit;text-decoration:none}
 }
 .quotes cite{display:block;margin-top:10px;color:var(--muted);font-style:normal;font-size:14px}
 
-/* ---------- Calendar ---------- */
-.cal-controls{display:flex;align-items:center;justify-content:center;gap:16px;margin-bottom:14px}
-.cal-controls h3{font-family:'Bebas Neue',sans-serif;letter-spacing:.05em;font-size:28px;margin:0;min-width:220px;text-align:center}
+/* ---------- Availability ---------- */
+.section-soft{background:var(--paper-2)}
+.availability-legend{display:flex;justify-content:center;flex-wrap:wrap;gap:16px 24px;margin:-4px 0 22px;font-size:13px;font-weight:700;color:var(--muted)}
+.availability-calendar{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.month-calendar{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow)}
+.month-calendar h3{font-family:'Bebas Neue',sans-serif;letter-spacing:.05em;font-size:27px;margin:0 0 14px;text-align:center}
 .cal-head,.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
 .cal-head{margin-bottom:6px}
 .cal-head span{font-size:12px;color:var(--muted);text-align:center;font-weight:700;text-transform:uppercase;letter-spacing:.08em}
 .cal-grid .day{
   aspect-ratio:1/1;border-radius:10px;padding:8px;border:1px solid var(--line);
-  display:flex;flex-direction:column;justify-content:space-between;background:#fff;font-size:13px;
+  display:flex;flex-direction:column;justify-content:space-between;align-items:flex-start;background:#fff;font:inherit;font-size:13px;text-align:left;
 }
 .cal-grid .day.pad{background:transparent;border:none}
+.cal-grid button.day{cursor:pointer;transition:transform .15s ease,box-shadow .15s ease}
+.cal-grid button.day.available:hover,.cal-grid button.day.limited:hover{transform:translateY(-2px);box-shadow:0 5px 14px rgba(18,24,42,.12)}
+.cal-grid button.day.booked,.cal-grid button.day.past{cursor:not-allowed}
 .cal-grid .day .num{font-weight:700}
 .cal-grid .day .st{font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
 .cal-grid .day.available{background:#eaf7ef;border-color:#bfe3c9}
@@ -247,6 +253,7 @@ a{color:inherit;text-decoration:none}
   .nav-links a:not(.btn){display:none}
   .locations,.grid-addons{grid-template-columns:repeat(2,1fr)}
   .gallery{grid-template-columns:repeat(4,1fr);grid-auto-rows:120px}
+  .availability-calendar{grid-template-columns:1fr 1fr}
   .g1{grid-column:span 2;grid-row:span 2}
   .quotes{grid-template-columns:1fr}
   .split,.book-wrap{grid-template-columns:1fr}
@@ -254,7 +261,13 @@ a{color:inherit;text-decoration:none}
   .foot-inner{grid-template-columns:1fr 1fr}
 }
 @media (max-width:560px){
-  .locations,.grid-addons,.gallery{grid-template-columns:1fr 1fr}
+  .locations,.grid-addons{grid-template-columns:1fr 1fr}
+  .gallery{display:flex;overflow-x:auto;gap:12px;padding:2px 2px 12px;margin:0 -2px 28px;scroll-snap-type:x mandatory}
+  .gallery .g{flex:0 0:78vw;aspect-ratio:4/3;height:auto;grid-column:auto;grid-row:auto;scroll-snap-align:start}
+  .availability-calendar{grid-template-columns:1fr}
+  .month-calendar{padding:14px}
+  .cal-grid .day{padding:6px;border-radius:8px}
+  .cal-grid .day .st{font-size:9px}
   .book-form{grid-template-columns:1fr}
   .book-form .full{grid-column:1}
   .section{padding:64px 0}

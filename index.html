@@ -28,6 +28,7 @@
     </a>
     <nav class="nav-links">
       <a href="#locations">Locations</a>
+      <a href="#availability">Availability</a>
       <a href="#whats-inside">What's Inside</a>
       <a href="#addons">Add-ons</a>
       <a href="#book" class="btn btn-sm btn-primary cart-link">Enquiry <span class="cart-count">0</span></a>
@@ -88,6 +89,23 @@
         <span class="loc-tag">Lower North Island</span>
       </article>
     </div>
+  </div>
+</section>
+
+<section id="availability" class="section section-soft">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Availability</span>
+      <h2>See the next available dates.</h2>
+      <p>Green dates are available to enquire about. Booked dates are unavailable; final availability is confirmed when we receive your enquiry.</p>
+    </div>
+    <div class="availability-legend" aria-label="Availability legend">
+      <span><i class="legend-dot available"></i>Available</span>
+      <span><i class="legend-dot limited"></i>Limited availability</span>
+      <span><i class="legend-dot booked"></i>Booked</span>
+    </div>
+    <div id="availabilityCalendar" class="availability-calendar" aria-live="polite"></div>
+    <p class="fine">Availability is indicative and may change before we confirm your delivery and collection times.</p>
   </div>
 </section>
 
@@ -294,7 +312,7 @@
         <input type="checkbox" required />
         <span>I understand this is an enquiry. Delivery, collection, availability and any travel charges will be confirmed before booking.</span>
       </label>
-      <button type="submit" class="btn btn-primary btn-lg full">Prepare my enquiry</button>
+      <button type="submit" class="btn btn-primary btn-lg full">Send enquiry</button>
       <p id="formMsg" class="form-msg" aria-live="polite"></p>
     </form>
   </div>
