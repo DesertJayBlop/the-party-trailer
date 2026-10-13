@@ -2,11 +2,12 @@ const CART_KEY = 'partyTrailerEnquiryCart';
 const INTEREST_KEY = 'partyTrailerInterestLog';
 const BASE_HIRE = 250;
 const GOOGLE_FORM_ENDPOINT = 'https://docs.google.com/forms/d/e/1FAIpQLSfhN4PeCR4r94XZnBOigMHZxcUjeXBGc3cXwDbDfSrFpn8CEg/formResponse';
-const AVAILABILITY_FEED = '';
+const AVAILABILITY_FEED = 'https://script.google.com/macros/s/AKfycbzwcWWw1To5SgPVTuUB9A3xXjSEjDyG_55i769etYffjrl7rMRADGu89UdDjgqTqY7Vyw/exec';
 const MONTHS_PER_VIEW = 3;
 let availabilityMonthOffset = 0;
 let bookedDates = new Set();
 let availabilityLoaded = false;
+let activeAvailabilityLocation = 'Christchurch';
 
 function readCart() {
   try { return JSON.parse(localStorage.getItem(CART_KEY)) || []; }
@@ -228,8 +229,10 @@ function loadAvailability() {
     renderAvailability();
     return;
   }
+  availabilityLoaded = false;
+  renderAvailability();
   const script = document.createElement('script');
-  script.src = `${AVAILABILITY_FEED}${AVAILABILITY_FEED.includes('?') ? '&' : '?'}callback=partyTrailerAvailability&v=${Date.now()}`;
+  script.src = `${AVAILABILITY_FEED}${AVAILABILITY_FEED.includes('?') ? '&' : '?'}location=${encodeURIComponent(activeAvailabilityLocation)}&callback=partyTrailerAvailability&v=${Date.now()}`;
   script.async = true;
   script.onerror = () => {
     availabilityLoaded = true;
@@ -239,6 +242,7 @@ function loadAvailability() {
 }
 
 window.partyTrailerAvailability = payload => {
+  if (payload?.location && payload.location !== activeAvailabilityLocation) return;
   bookedDates = new Set(Array.isArray(payload?.booked) ? payload.booked : []);
   availabilityLoaded = true;
   renderAvailability();
@@ -266,6 +270,18 @@ document.getElementById('availabilityPrev').addEventListener('click', () => {
 document.getElementById('availabilityNext').addEventListener('click', () => {
   availabilityMonthOffset += MONTHS_PER_VIEW;
   renderAvailability();
+});
+document.getElementById('availabilityLocation').addEventListener('change', event => {
+  activeAvailabilityLocation = event.target.value;
+  availabilityMonthOffset = 0;
+  loadAvailability();
+});
+document.querySelector('select[name="location"]').addEventListener('change', event => {
+  if (!event.target.value || event.target.value === activeAvailabilityLocation) return;
+  activeAvailabilityLocation = event.target.value;
+  document.getElementById('availabilityLocation').value = activeAvailabilityLocation;
+  availabilityMonthOffset = 0;
+  loadAvailability();
 });
 document.getElementById('closeEnquiryDialog').addEventListener('click', closeEnquirySuccess);
 document.getElementById('acknowledgeEnquiry').addEventListener('click', closeEnquirySuccess);

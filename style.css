@@ -179,6 +179,8 @@ a{color:inherit;text-decoration:none}
 /* ---------- Availability ---------- */
 .section-soft{background:var(--paper-2)}
 .availability-legend{display:flex;justify-content:center;flex-wrap:wrap;gap:16px 24px;margin:-4px 0 22px;font-size:13px;font-weight:700;color:var(--muted)}
+.availability-location{display:flex;justify-content:center;align-items:center;gap:9px;margin:-4px 0 18px;color:var(--muted);font-size:13px;font-weight:700}
+.availability-location select{border:1px solid var(--line);border-radius:999px;background:#fff;padding:8px 30px 8px 12px;color:var(--ink);font:inherit;font-weight:800;cursor:pointer}
 .calendar-controls{display:flex;align-items:center;justify-content:space-between;gap:14px;max-width:660px;margin:0 auto 18px}
 .calendar-range{margin:0;text-align:center;font-size:13px;font-weight:800;color:var(--muted)}
 .cal-nav{border:1px solid var(--line);border-radius:999px;background:#fff;padding:9px 13px;color:var(--ink);font:inherit;font-size:13px;font-weight:800;cursor:pointer;white-space:nowrap}
