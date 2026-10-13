@@ -88,11 +88,11 @@ a{color:inherit;text-decoration:none}
 .hero-cta{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:36px}
 .hero-stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;max-width:720px}
 .hero-stats div{
-  background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);
+  background:rgba(8,16,32,.58);border:1px solid rgba(255,255,255,.28);
   border-radius:14px;padding:14px 16px;
 }
-.hero-stats strong{display:block;font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:.03em}
-.hero-stats span{font-size:12px;opacity:.85}
+.hero-stats strong{display:block;font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:.03em;color:#fff;text-shadow:0 1px 10px rgba(0,0,0,.45)}
+.hero-stats span{font-size:12px;font-weight:700;color:#fff;opacity:1;text-shadow:0 1px 8px rgba(0,0,0,.5)}
 
 /* ---------- Sections ---------- */
 .section{padding:88px 0}
@@ -179,6 +179,11 @@ a{color:inherit;text-decoration:none}
 /* ---------- Availability ---------- */
 .section-soft{background:var(--paper-2)}
 .availability-legend{display:flex;justify-content:center;flex-wrap:wrap;gap:16px 24px;margin:-4px 0 22px;font-size:13px;font-weight:700;color:var(--muted)}
+.calendar-controls{display:flex;align-items:center;justify-content:space-between;gap:14px;max-width:660px;margin:0 auto 18px}
+.calendar-range{margin:0;text-align:center;font-size:13px;font-weight:800;color:var(--muted)}
+.cal-nav{border:1px solid var(--line);border-radius:999px;background:#fff;padding:9px 13px;color:var(--ink);font:inherit;font-size:13px;font-weight:800;cursor:pointer;white-space:nowrap}
+.cal-nav:hover:not(:disabled){border-color:var(--accent);color:var(--accent)}
+.cal-nav:disabled{cursor:not-allowed;opacity:.45}
 .availability-calendar{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
 .month-calendar{min-width:0;background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow)}
 .month-calendar h3{font-family:'Bebas Neue',sans-serif;letter-spacing:.05em;font-size:27px;margin:0 0 14px;text-align:center}
@@ -197,14 +202,12 @@ a{color:inherit;text-decoration:none}
 .cal-grid .day .st{display:none}
 .cal-grid .day.available{background:#eaf7ef;border-color:#bfe3c9}
 .cal-grid .day.available .st{color:#1f8f44}
-.cal-grid .day.limited{background:#fff4e1;border-color:#f3d894}
-.cal-grid .day.limited .st{color:#a6700e}
 .cal-grid .day.booked{background:#fbe6e2;border-color:#f3b5aa;color:#772318}
 .cal-grid .day.booked .st{color:#a2311f}
 .cal-grid .day.past{background:#f3f1ec;color:#aaa;border-style:dashed}
+.cal-grid .day.checking{background:#f7f5ef;color:#86909f;border-style:dashed;cursor:wait}
 .legend-dot{display:inline-block;width:10px;height:10px;border-radius:3px;vertical-align:middle;margin:0 4px}
 .legend-dot.available{background:#5ebf7a}
-.legend-dot.limited{background:#e8b24a}
 .legend-dot.booked{background:#d35a46}
 
 /* ---------- Booking form ---------- */
@@ -234,6 +237,7 @@ a{color:inherit;text-decoration:none}
 .form-msg{margin:0;font-size:14px;color:var(--teal);font-weight:600}
 .reservation-summary{display:grid;gap:3px;background:#fff4e1;border:1px solid #f3d894;border-radius:10px;padding:12px 14px;font-size:13px;color:#805b17}
 .reservation-summary strong{color:var(--ink)}
+.reservation-summary.has-conflict{background:#fbe6e2;border-color:#f3b5aa;color:#a2311f}
 .enquiry-cart{background:var(--paper-2);border:1px solid var(--line);border-radius:10px;padding:14px}
 .enquiry-cart-head{display:flex;align-items:center;justify-content:space-between;gap:12px}
 .text-button{border:0;background:transparent;color:var(--accent);font:inherit;font-size:13px;font-weight:700;cursor:pointer}
@@ -241,6 +245,16 @@ a{color:inherit;text-decoration:none}
 .cart-items li{display:flex;justify-content:space-between;align-items:center;gap:10px}
 .remove-addon{border:0;background:none;color:var(--accent);font:inherit;font-size:12px;font-weight:700;cursor:pointer}
 .cart-total{margin:8px 0 0;font-size:13px;font-weight:800;color:var(--ink)}
+
+/* ---------- Enquiry confirmation ---------- */
+.enquiry-dialog{width:min(92vw,520px);border:0;border-radius:18px;padding:0;background:transparent;box-shadow:0 22px 80px rgba(0,0,0,.34)}
+.enquiry-dialog::backdrop{background:rgba(7,12,25,.68);backdrop-filter:blur(3px)}
+.dialog-card{position:relative;background:#fff;padding:38px 34px 32px;border-radius:18px;text-align:center;color:var(--ink)}
+.dialog-card h2{font-family:'Bebas Neue',sans-serif;letter-spacing:.02em;font-size:42px;line-height:1;margin:10px auto 16px;max-width:410px}
+.dialog-card p{margin:0 auto 24px;color:var(--muted);font-size:16px;line-height:1.55;max-width:410px}
+.dialog-kicker{display:inline-block;padding:6px 10px;border-radius:999px;background:#eaf7ef;color:#1f8f44;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.09em}
+.dialog-close{position:absolute;right:13px;top:10px;width:34px;height:34px;border:0;border-radius:50%;background:transparent;color:var(--muted);font:inherit;font-size:28px;line-height:1;cursor:pointer}
+.dialog-close:hover{background:var(--paper-2);color:var(--ink)}
 
 /* ---------- Footer ---------- */
 .footer{background:#0b1020;color:#cfd3dd;padding:50px 0 24px}
@@ -267,12 +281,17 @@ a{color:inherit;text-decoration:none}
   .gallery{display:flex;overflow-x:auto;gap:12px;padding:2px 2px 12px;margin:0 -2px 28px;scroll-snap-type:x mandatory}
   .gallery .g{flex:0 0:78vw;aspect-ratio:4/3;height:auto;grid-column:auto;grid-row:auto;scroll-snap-align:start}
   .availability-calendar{grid-template-columns:1fr}
+  .calendar-controls{align-items:stretch}
+  .cal-nav{padding:9px 10px}
+  .calendar-range{align-self:center;font-size:12px}
   .month-calendar{padding:14px}
   .cal-grid .day{padding:6px;border-radius:8px}
   .book-form{grid-template-columns:1fr}
   .book-form .full{grid-column:1}
   .section{padding:64px 0}
   .hero-inner{padding:80px 20px 70px}
+  .hero-stats div{background:rgba(5,12,27,.76);padding:12px}
+  .hero-stats span{font-size:11px}
   .foot-inner{grid-template-columns:1fr}
 }
 

@@ -2,8 +2,11 @@ const CART_KEY = 'partyTrailerEnquiryCart';
 const INTEREST_KEY = 'partyTrailerInterestLog';
 const BASE_HIRE = 250;
 const GOOGLE_FORM_ENDPOINT = 'https://docs.google.com/forms/d/e/1FAIpQLSfhN4PeCR4r94XZnBOigMHZxcUjeXBGc3cXwDbDfSrFpn8CEg/formResponse';
-const BOOKED_OFFSETS = new Set([2, 3, 9, 16, 17, 25, 32, 33, 40, 47, 55, 56, 64, 71, 78]);
-const LIMITED_OFFSETS = new Set([6, 13, 14, 21, 28, 36, 44, 51, 60, 67, 74, 82]);
+const AVAILABILITY_FEED = '';
+const MONTHS_PER_VIEW = 3;
+let availabilityMonthOffset = 0;
+let bookedDates = new Set();
+let availabilityLoaded = false;
 
 function readCart() {
   try { return JSON.parse(localStorage.getItem(CART_KEY)) || []; }
@@ -106,6 +109,10 @@ async function submitBooking(event) {
   const pickupDate = new Date(date);
   pickupDate.setDate(pickupDate.getDate() + nights);
   const reservation = `${nights} night${nights === 1 ? '' : 's'} — drop-off ${formatDate(date)} at 11am; pickup ${formatDate(pickupDate)} at 9am.`;
+  if (reservationOverlapsBookedDate(date, nights)) {
+    msg.textContent = 'That stay includes a booked date. Please choose another drop-off date or number of nights.';
+    return false;
+  }
   recordInterest('enquiry-prepared', selected, BASE_HIRE + cart.reduce((sum, item) => sum + item.price, 0));
   submitButton.disabled = true;
   submitButton.textContent = 'Sending enquiry…';
@@ -126,10 +133,11 @@ async function submitBooking(event) {
       headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
       body: payload.toString()
     });
-    msg.textContent = `Thanks ${data.name.split(' ')[0]} — your enquiry has been sent. ${reservation}`;
+    msg.textContent = 'Your request was sent.';
     form.reset();
     renderCart();
     updateReservationSummary();
+    showEnquirySuccess();
   } catch {
     msg.textContent = 'We could not send your enquiry just now. Please try again or call us on 02904317726.';
   } finally {
@@ -159,7 +167,20 @@ function updateReservationSummary() {
   const nights = Math.max(1, Number(nightsInput.value) || 1);
   const pickup = new Date(dropOff);
   pickup.setDate(pickup.getDate() + nights);
-  timing.textContent = `${nights} night${nights === 1 ? '' : 's'}: drop-off ${formatDate(dropOff)} at 11am · pickup ${formatDate(pickup)} at 9am.`;
+  const conflict = reservationOverlapsBookedDate(dropOff, nights);
+  timing.textContent = conflict
+    ? `${nights} night${nights === 1 ? '' : 's'}: this stay includes a booked date. Choose another drop-off date or number of nights.`
+    : `${nights} night${nights === 1 ? '' : 's'}: drop-off ${formatDate(dropOff)} at 11am · pickup ${formatDate(pickup)} at 9am.`;
+  document.getElementById('reservationSummary')?.classList.toggle('has-conflict', conflict);
+}
+
+function reservationOverlapsBookedDate(dropOff, nights) {
+  for (let index = 0; index < nights; index += 1) {
+    const stayDate = new Date(dropOff);
+    stayDate.setDate(stayDate.getDate() + index);
+    if (bookedDates.has(dateKey(stayDate))) return true;
+  }
+  return false;
 }
 
 function renderAvailability() {
@@ -169,8 +190,12 @@ function renderAvailability() {
   today.setHours(0, 0, 0, 0);
   const dateInput = document.querySelector('input[name="date"]');
   dateInput.min = dateKey(today);
-  const months = Array.from({ length: 3 }, (_, index) => new Date(today.getFullYear(), today.getMonth() + index, 1));
+  const months = Array.from({ length: MONTHS_PER_VIEW }, (_, index) => new Date(today.getFullYear(), today.getMonth() + availabilityMonthOffset + index, 1));
   const weekdayNames = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+  const range = document.getElementById('availabilityRange');
+  const prev = document.getElementById('availabilityPrev');
+  if (range) range.textContent = `${months[0].toLocaleDateString('en-NZ', { month: 'short', year: 'numeric' })} – ${months.at(-1).toLocaleDateString('en-NZ', { month: 'short', year: 'numeric' })}`;
+  if (prev) prev.disabled = availabilityMonthOffset === 0;
   calendar.innerHTML = months.map(month => {
     const firstWeekday = (month.getDay() + 6) % 7;
     const daysInMonth = new Date(month.getFullYear(), month.getMonth() + 1, 0).getDate();
@@ -178,26 +203,74 @@ function renderAvailability() {
     const days = Array.from({ length: daysInMonth }, (_, index) => {
       const date = new Date(month.getFullYear(), month.getMonth(), index + 1);
       const offset = Math.round((date - today) / 86400000);
-      const status = offset < 0 ? 'past' : BOOKED_OFFSETS.has(offset) ? 'booked' : LIMITED_OFFSETS.has(offset) ? 'limited' : 'available';
-      const label = status === 'booked' ? 'Booked' : status === 'limited' ? 'Limited' : status === 'past' ? 'Past' : 'Available';
-      const disabled = status === 'booked' || status === 'past' ? ' disabled' : '';
+      const status = offset < 0 ? 'past' : !availabilityLoaded ? 'checking' : bookedDates.has(dateKey(date)) ? 'booked' : 'available';
+      const label = status === 'booked' ? 'Booked' : status === 'past' ? 'Past' : status === 'checking' ? 'Checking availability' : 'Available';
+      const disabled = status === 'booked' || status === 'past' || status === 'checking' ? ' disabled' : '';
       return `<button class="day ${status}" type="button" data-date="${dateKey(date)}"${disabled} aria-label="${date.toLocaleDateString('en-NZ', { weekday: 'long', day: 'numeric', month: 'long' })}: ${label}"><span class="num">${date.getDate()}</span><span class="st">${label}</span></button>`;
     }).join('');
     return `<article class="month-calendar"><h3>${month.toLocaleDateString('en-NZ', { month: 'long', year: 'numeric' })}</h3><div class="cal-head">${weekdayNames.map(day => `<span>${day}</span>`).join('')}</div><div class="cal-grid">${pads}${days}</div></article>`;
   }).join('');
-  calendar.addEventListener('click', event => {
-    const day = event.target.closest('button.day:not([disabled])');
-    if (!day) return;
-    dateInput.value = day.dataset.date;
-    updateReservationSummary();
-    document.getElementById('book').scrollIntoView({ behavior: 'smooth', block: 'start' });
-    dateInput.focus({ preventScroll: true });
-  });
+}
+
+document.getElementById('availabilityCalendar').addEventListener('click', event => {
+  const day = event.target.closest('button.day:not([disabled])');
+  if (!day) return;
+  const dateInput = document.querySelector('input[name="date"]');
+  dateInput.value = day.dataset.date;
+  updateReservationSummary();
+  document.getElementById('book').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  dateInput.focus({ preventScroll: true });
+});
+
+function loadAvailability() {
+  if (!AVAILABILITY_FEED) {
+    availabilityLoaded = true;
+    renderAvailability();
+    return;
+  }
+  const script = document.createElement('script');
+  script.src = `${AVAILABILITY_FEED}${AVAILABILITY_FEED.includes('?') ? '&' : '?'}callback=partyTrailerAvailability&v=${Date.now()}`;
+  script.async = true;
+  script.onerror = () => {
+    availabilityLoaded = true;
+    renderAvailability();
+  };
+  document.head.append(script);
+}
+
+window.partyTrailerAvailability = payload => {
+  bookedDates = new Set(Array.isArray(payload?.booked) ? payload.booked : []);
+  availabilityLoaded = true;
+  renderAvailability();
+  updateReservationSummary();
+};
+
+function showEnquirySuccess() {
+  const dialog = document.getElementById('enquirySuccessDialog');
+  if (dialog?.showModal) dialog.showModal();
+}
+
+function closeEnquirySuccess() {
+  document.getElementById('enquirySuccessDialog')?.close();
 }
 
 renderCart();
 renderAvailability();
+loadAvailability();
 document.querySelector('input[name="date"]').addEventListener('change', updateReservationSummary);
 document.querySelector('input[name="nights"]').addEventListener('input', updateReservationSummary);
+document.getElementById('availabilityPrev').addEventListener('click', () => {
+  availabilityMonthOffset = Math.max(0, availabilityMonthOffset - MONTHS_PER_VIEW);
+  renderAvailability();
+});
+document.getElementById('availabilityNext').addEventListener('click', () => {
+  availabilityMonthOffset += MONTHS_PER_VIEW;
+  renderAvailability();
+});
+document.getElementById('closeEnquiryDialog').addEventListener('click', closeEnquirySuccess);
+document.getElementById('acknowledgeEnquiry').addEventListener('click', closeEnquirySuccess);
+document.getElementById('enquirySuccessDialog').addEventListener('click', event => {
+  if (event.target === event.currentTarget) closeEnquirySuccess();
+});
 updateReservationSummary();
 document.getElementById('yr').textContent = new Date().getFullYear();
