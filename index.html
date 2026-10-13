@@ -3,8 +3,37 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>The Party Trailer — Trailer hire, delivered</title>
-<meta name="description" content="A trailer of party gear delivered to your door. Choose a date, add the extras you want, then we collect it afterwards." />
+<title>Party Trailer Hire NZ — Christchurch, Queenstown, Auckland, Wellington | The Party Trailer</title>
+<meta name="description" content="New Zealand's mobile party trailer hire. Speakers, lights, tables, yard games, marquees, wedding arches and more — delivered to Christchurch, Queenstown/Wanaka, Auckland & Wellington from $349/night." />
+<meta name="keywords" content="party hire NZ, party trailer, mobile party hire Christchurch, event hire Queenstown, wedding arch hire Wanaka, marquee hire Auckland, backyard party Wellington, outdoor speaker hire, DJ booth hire NZ" />
+<meta name="author" content="The Party Trailer Ltd" />
+<meta name="robots" content="index,follow,max-image-preview:large" />
+<meta name="theme-color" content="#ff5a3c" />
+<meta name="geo.region" content="NZ" />
+<meta name="geo.placename" content="Christchurch, Queenstown, Auckland, Wellington" />
+<link rel="canonical" href="https://thepartytrailer.co.nz/" />
+
+<!-- Open Graph -->
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="The Party Trailer" />
+<meta property="og:title" content="Party Trailer Hire NZ — Speakers, Lights, Games, Marquees" />
+<meta property="og:description" content="Aotearoa's mobile party trailer. One drop-off, everything you need. Serving Christchurch, Queenstown/Wanaka, Auckland and Wellington." />
+<meta property="og:url" content="https://thepartytrailer.co.nz/" />
+<meta property="og:locale" content="en_NZ" />
+<meta property="og:image" content="https://thepartytrailer.co.nz/assets/og-cover.jpg" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="The Party Trailer parked on a lawn with festoon lights and yard games set up" />
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Party Trailer Hire NZ — The Party Trailer" />
+<meta name="twitter:description" content="Mobile party hire delivered across NZ. Speakers, lights, games, marquees, arches, bars." />
+<meta name="twitter:image" content="https://thepartytrailer.co.nz/assets/og-cover.jpg" />
+
+<link rel="icon" href="/favicon.ico" sizes="any" />
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png" />
+
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
@@ -101,8 +130,12 @@
     </div>
     <div class="availability-legend" aria-label="Availability legend">
       <span><i class="legend-dot available"></i>Available</span>
-      <span><i class="legend-dot limited"></i>Limited availability</span>
       <span><i class="legend-dot booked"></i>Booked</span>
+    </div>
+    <div class="calendar-controls" aria-label="Calendar navigation">
+      <button id="availabilityPrev" class="cal-nav" type="button" aria-label="Show previous three months">← Previous</button>
+      <p id="availabilityRange" class="calendar-range" aria-live="polite"></p>
+      <button id="availabilityNext" class="cal-nav" type="button" aria-label="Show next three months">Next →</button>
     </div>
     <div id="availabilityCalendar" class="availability-calendar" aria-live="polite"></div>
     <p class="fine">Availability is indicative and may change before we confirm your delivery and collection times.</p>
@@ -325,6 +358,38 @@
   </div>
 </section>
 
+<section id="faq" class="section section-tint">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Good to know</span>
+      <h2>Frequently asked questions</h2>
+    </div>
+    <div class="faq">
+      <details><summary>How much does party trailer hire cost in New Zealand?</summary>
+        <p>Our Basic Trailer is $349/night and includes outdoor speakers, a wireless microphone, 40 m of festoon lighting with poles, four trestle tables, 16 chairs and a full yard-games kit (cornhole, giant Jenga, Connect 4, finska, bocce). Add-ons such as marquees ($220), wedding arches ($180) or full setup &amp; pack-down ($295) are optional.</p>
+      </details>
+      <details><summary>Which cities and regions do you deliver to?</summary>
+        <p>We operate from four depots: Christchurch (serving Canterbury), Queenstown/Wanaka (Southern Lakes), Auckland (North Shore to Pukekohe + Waiheke by ferry) and Wellington (Hutt Valley, Kāpiti, Wairarapa). Delivery within 50&nbsp;km of each depot is included; beyond that it's $2.50/km each way.</p>
+      </details>
+      <details><summary>What is the minimum hire period?</summary>
+        <p>One night. We drop the trailer off the day before your event and collect it the following morning so you've got plenty of setup and recovery time.</p>
+      </details>
+      <details><summary>How far in advance should I book?</summary>
+        <p>Weekends over summer (Nov–Apr) are usually booked out 4–8 months ahead. Shoulder-season weekends go 6–10 weeks out. The live availability calendar above shows exactly what's open — if a date is green, grab it.</p>
+      </details>
+      <details><summary>Do you set up and pack down the gear?</summary>
+        <p>Self-setup is included — the trailer rolls up fully loaded with everything labelled and ready. If you'd rather be hands-off, add our Full Setup &amp; Pack-Down service ($295) and we'll build it, test it, and come back the next morning to collect.</p>
+      </details>
+      <details><summary>What deposit is required to secure a date?</summary>
+        <p>A $100 refundable deposit confirms your booking. It's returned after pickup provided the gear comes back in the same condition it went out.</p>
+      </details>
+      <details><summary>Can I hire for weddings and corporate events?</summary>
+        <p>Yes — the wedding arch, pop-up timber bar, dance floor and photo booth are especially popular for weddings and work functions. Email hello@thepartytrailer.co.nz for a tailored quote.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
 <footer class="footer">
   <div class="wrap foot-inner">
     <div>
@@ -356,6 +421,116 @@
     <small>© <span id="yr"></span> The Party Trailer Ltd · Pricing in NZD incl. GST</small>
   </div>
 </footer>
+
+<!-- Structured data for SEO / rich results -->
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@graph":[
+    {
+      "@type":"Organization",
+      "@id":"https://thepartytrailer.co.nz/#org",
+      "name":"The Party Trailer",
+      "url":"https://thepartytrailer.co.nz/",
+      "logo":"https://thepartytrailer.co.nz/assets/logo.png",
+      "image":"https://thepartytrailer.co.nz/assets/og-cover.jpg",
+      "foundingDate":"2014",
+      "email":"hello@thepartytrailer.co.nz",
+      "telephone":"+64-800-727-8969",
+      "areaServed":[
+        {"@type":"AdministrativeArea","name":"Canterbury"},
+        {"@type":"AdministrativeArea","name":"Otago"},
+        {"@type":"AdministrativeArea","name":"Auckland"},
+        {"@type":"AdministrativeArea","name":"Wellington"}
+      ],
+      "aggregateRating":{
+        "@type":"AggregateRating",
+        "ratingValue":"4.9",
+        "reviewCount":"318"
+      }
+    },
+    {
+      "@type":"LocalBusiness",
+      "@id":"https://thepartytrailer.co.nz/#chc",
+      "name":"The Party Trailer — Christchurch",
+      "parentOrganization":{"@id":"https://thepartytrailer.co.nz/#org"},
+      "priceRange":"$$",
+      "telephone":"+64-800-727-8969",
+      "address":{"@type":"PostalAddress","addressLocality":"Christchurch","addressRegion":"Canterbury","addressCountry":"NZ"},
+      "areaServed":"Canterbury",
+      "openingHours":"Mo-Sa 09:00-19:00"
+    },
+    {
+      "@type":"LocalBusiness",
+      "@id":"https://thepartytrailer.co.nz/#qt",
+      "name":"The Party Trailer — Queenstown / Wanaka",
+      "parentOrganization":{"@id":"https://thepartytrailer.co.nz/#org"},
+      "priceRange":"$$",
+      "telephone":"+64-800-727-8969",
+      "address":{"@type":"PostalAddress","addressLocality":"Queenstown","addressRegion":"Otago","addressCountry":"NZ"},
+      "areaServed":"Southern Lakes",
+      "openingHours":"Mo-Sa 09:00-19:00"
+    },
+    {
+      "@type":"LocalBusiness",
+      "@id":"https://thepartytrailer.co.nz/#akl",
+      "name":"The Party Trailer — Auckland",
+      "parentOrganization":{"@id":"https://thepartytrailer.co.nz/#org"},
+      "priceRange":"$$",
+      "telephone":"+64-800-727-8969",
+      "address":{"@type":"PostalAddress","addressLocality":"Auckland","addressRegion":"Auckland","addressCountry":"NZ"},
+      "areaServed":"Auckland Region",
+      "openingHours":"Mo-Sa 09:00-19:00"
+    },
+    {
+      "@type":"LocalBusiness",
+      "@id":"https://thepartytrailer.co.nz/#wlg",
+      "name":"The Party Trailer — Wellington",
+      "parentOrganization":{"@id":"https://thepartytrailer.co.nz/#org"},
+      "priceRange":"$$",
+      "telephone":"+64-800-727-8969",
+      "address":{"@type":"PostalAddress","addressLocality":"Wellington","addressRegion":"Wellington","addressCountry":"NZ"},
+      "areaServed":"Wellington Region",
+      "openingHours":"Mo-Sa 09:00-19:00"
+    },
+    {
+      "@type":"Product",
+      "name":"Basic Party Trailer Hire",
+      "image":"https://thepartytrailer.co.nz/assets/og-cover.jpg",
+      "description":"Fully loaded party trailer with outdoor speakers, wireless microphone, 40 m of festoon lighting, tables, chairs and yard games. Delivered to your door.",
+      "brand":{"@id":"https://thepartytrailer.co.nz/#org"},
+      "offers":{
+        "@type":"Offer",
+        "price":"349.00",
+        "priceCurrency":"NZD",
+        "availability":"https://schema.org/InStock",
+        "url":"https://thepartytrailer.co.nz/#book"
+      }
+    },
+    {
+      "@type":"FAQPage",
+      "mainEntity":[
+        {"@type":"Question","name":"How much does party trailer hire cost in New Zealand?","acceptedAnswer":{"@type":"Answer","text":"The Basic Trailer is $349 NZD per night and includes speakers, a wireless microphone, 40 m of festoon lighting, four trestle tables, 16 chairs and a full yard-games kit."}},
+        {"@type":"Question","name":"Which cities do you deliver to?","acceptedAnswer":{"@type":"Answer","text":"We deliver from four depots: Christchurch, Queenstown/Wanaka, Auckland and Wellington. Delivery within 50 km of a depot is included; beyond 50 km is $2.50/km each way."}},
+        {"@type":"Question","name":"What is the minimum hire period?","acceptedAnswer":{"@type":"Answer","text":"One night. The trailer is dropped off the day before your event and collected the following morning."}},
+        {"@type":"Question","name":"How far in advance should I book?","acceptedAnswer":{"@type":"Answer","text":"Summer weekends (Nov–Apr) usually book out 4–8 months ahead. Shoulder-season weekends go 6–10 weeks in advance."}},
+        {"@type":"Question","name":"Do you set up and pack down?","acceptedAnswer":{"@type":"Answer","text":"Self-setup is included. Full Setup & Pack-Down is a $295 add-on where our team builds and later collects everything."}},
+        {"@type":"Question","name":"What deposit is required?","acceptedAnswer":{"@type":"Answer","text":"A $100 refundable deposit confirms your booking and is returned after pickup."}}
+      ]
+    }
+  ]
+}
+</script>
+
+<dialog id="enquirySuccessDialog" class="enquiry-dialog" aria-labelledby="enquirySuccessTitle">
+  <div class="dialog-card">
+    <button id="closeEnquiryDialog" class="dialog-close" type="button" aria-label="Close confirmation">×</button>
+    <span class="dialog-kicker">Request sent</span>
+    <h2 id="enquirySuccessTitle">Thanks for submitting your request.</h2>
+    <p>Our team will contact you shortly and review your party details and answer any questions you have.</p>
+    <button id="acknowledgeEnquiry" class="btn btn-primary" type="button">Done</button>
+  </div>
+</dialog>
 
 <script src="app.js"></script>
 </body>
