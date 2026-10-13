@@ -97,7 +97,7 @@
     <div class="section-head">
       <span class="eyebrow">Availability</span>
       <h2>See the next available dates.</h2>
-      <p>Green dates are available to enquire about. Booked dates are unavailable; final availability is confirmed when we receive your enquiry.</p>
+      <p>Pick an available drop-off date, then choose the number of nights you need. Booked dates are unavailable; final availability is confirmed when we receive your enquiry.</p>
     </div>
     <div class="availability-legend" aria-label="Availability legend">
       <span><i class="legend-dot available"></i>Available</span>
@@ -268,12 +268,12 @@
     <div class="book-copy">
       <span class="eyebrow light">Enquire now</span>
       <h2>Send your trailer enquiry.</h2>
-      <p>Your selected add-ons are listed here. Send your preferred date, delivery location and contact details, and we’ll confirm the drop-off and collection timing.</p>
+      <p>Choose a drop-off date and number of nights, then send your contact details. We’ll confirm availability, delivery and collection details with you.</p>
       <ul class="book-points">
         <li>Pick the optional gear you want from the list above.</li>
-        <li>We deliver the loaded trailer at the agreed time.</li>
+        <li>We drop off the loaded trailer at <strong>11am</strong> on your selected day.</li>
         <li>You set up the gear where it suits your space.</li>
-        <li>Load it back into the trailer; we arrange collection.</li>
+        <li>Load it back into the trailer; we collect it at <strong>9am</strong> the morning after your final night.</li>
       </ul>
     </div>
 
@@ -297,9 +297,16 @@
           <option>Wellington</option>
         </select>
       </label>
-      <label>Preferred date
+      <label>Drop-off date
         <input type="date" name="date" required />
       </label>
+      <label>Number of nights
+        <input type="number" name="nights" min="1" max="14" value="1" required />
+      </label>
+      <div class="full reservation-summary" id="reservationSummary" aria-live="polite">
+        <strong>Reservation timing</strong>
+        <span id="reservationTiming">Choose a drop-off date to see your 11am delivery and 9am pickup timing.</span>
+      </div>
       <div class="full enquiry-cart" aria-live="polite">
         <div class="enquiry-cart-head"><strong>Your add-ons</strong><button id="clearCart" type="button" class="text-button">Clear</button></div>
         <ul id="cartItems" class="cart-items"><li>No add-ons selected yet.</li></ul>

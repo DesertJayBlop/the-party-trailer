@@ -180,13 +180,13 @@ a{color:inherit;text-decoration:none}
 .section-soft{background:var(--paper-2)}
 .availability-legend{display:flex;justify-content:center;flex-wrap:wrap;gap:16px 24px;margin:-4px 0 22px;font-size:13px;font-weight:700;color:var(--muted)}
 .availability-calendar{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
-.month-calendar{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow)}
+.month-calendar{min-width:0;background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow)}
 .month-calendar h3{font-family:'Bebas Neue',sans-serif;letter-spacing:.05em;font-size:27px;margin:0 0 14px;text-align:center}
-.cal-head,.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+.cal-head,.cal-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px}
 .cal-head{margin-bottom:6px}
 .cal-head span{font-size:12px;color:var(--muted);text-align:center;font-weight:700;text-transform:uppercase;letter-spacing:.08em}
 .cal-grid .day{
-  aspect-ratio:1/1;border-radius:10px;padding:8px;border:1px solid var(--line);
+  min-width:0;aspect-ratio:1/1;border-radius:10px;padding:7px;border:1px solid var(--line);overflow:hidden;
   display:flex;flex-direction:column;justify-content:space-between;align-items:flex-start;background:#fff;font:inherit;font-size:13px;text-align:left;
 }
 .cal-grid .day.pad{background:transparent;border:none}
@@ -194,7 +194,7 @@ a{color:inherit;text-decoration:none}
 .cal-grid button.day.available:hover,.cal-grid button.day.limited:hover{transform:translateY(-2px);box-shadow:0 5px 14px rgba(18,24,42,.12)}
 .cal-grid button.day.booked,.cal-grid button.day.past{cursor:not-allowed}
 .cal-grid .day .num{font-weight:700}
-.cal-grid .day .st{font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+.cal-grid .day .st{display:none}
 .cal-grid .day.available{background:#eaf7ef;border-color:#bfe3c9}
 .cal-grid .day.available .st{color:#1f8f44}
 .cal-grid .day.limited{background:#fff4e1;border-color:#f3d894}
@@ -232,6 +232,8 @@ a{color:inherit;text-decoration:none}
 .book-form .checkbox{flex-direction:row;align-items:flex-start;gap:10px;font-weight:500;font-size:13px;color:var(--muted)}
 .book-form .checkbox input{width:18px;height:18px;margin-top:2px}
 .form-msg{margin:0;font-size:14px;color:var(--teal);font-weight:600}
+.reservation-summary{display:grid;gap:3px;background:#fff4e1;border:1px solid #f3d894;border-radius:10px;padding:12px 14px;font-size:13px;color:#805b17}
+.reservation-summary strong{color:var(--ink)}
 .enquiry-cart{background:var(--paper-2);border:1px solid var(--line);border-radius:10px;padding:14px}
 .enquiry-cart-head{display:flex;align-items:center;justify-content:space-between;gap:12px}
 .text-button{border:0;background:transparent;color:var(--accent);font:inherit;font-size:13px;font-weight:700;cursor:pointer}
@@ -267,7 +269,6 @@ a{color:inherit;text-decoration:none}
   .availability-calendar{grid-template-columns:1fr}
   .month-calendar{padding:14px}
   .cal-grid .day{padding:6px;border-radius:8px}
-  .cal-grid .day .st{font-size:9px}
   .book-form{grid-template-columns:1fr}
   .book-form .full{grid-column:1}
   .section{padding:64px 0}

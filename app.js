@@ -102,6 +102,10 @@ async function submitBooking(event) {
   const msg = document.getElementById('formMsg');
   const submitButton = form.querySelector('button[type="submit"]');
   const date = new Date(`${data.date}T12:00:00`);
+  const nights = Number(data.nights);
+  const pickupDate = new Date(date);
+  pickupDate.setDate(pickupDate.getDate() + nights);
+  const reservation = `${nights} night${nights === 1 ? '' : 's'} — drop-off ${formatDate(date)} at 11am; pickup ${formatDate(pickupDate)} at 9am.`;
   recordInterest('enquiry-prepared', selected, BASE_HIRE + cart.reduce((sum, item) => sum + item.price, 0));
   submitButton.disabled = true;
   submitButton.textContent = 'Sending enquiry…';
@@ -115,16 +119,17 @@ async function submitBooking(event) {
       'entry.1878896652_month': String(date.getMonth() + 1),
       'entry.1878896652_day': String(date.getDate()),
       'entry.424130541': selected,
-      'entry.31177874': data.notes || ''
+      'entry.31177874': `${reservation}${data.notes ? `\n\nEvent details: ${data.notes}` : ''}`
     });
     await fetch(GOOGLE_FORM_ENDPOINT, {
       method: 'POST', mode: 'no-cors',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
       body: payload.toString()
     });
-    msg.textContent = `Thanks ${data.name.split(' ')[0]} — your enquiry has been sent. We’ll confirm availability, delivery and collection timing with you.`;
+    msg.textContent = `Thanks ${data.name.split(' ')[0]} — your enquiry has been sent. ${reservation}`;
     form.reset();
     renderCart();
+    updateReservationSummary();
   } catch {
     msg.textContent = 'We could not send your enquiry just now. Please try again or call us on 02904317726.';
   } finally {
@@ -136,6 +141,25 @@ async function submitBooking(event) {
 
 function dateKey(date) {
   return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+}
+
+function formatDate(date) {
+  return date.toLocaleDateString('en-NZ', { day: 'numeric', month: 'long', year: 'numeric' });
+}
+
+function updateReservationSummary() {
+  const dateInput = document.querySelector('input[name="date"]');
+  const nightsInput = document.querySelector('input[name="nights"]');
+  const timing = document.getElementById('reservationTiming');
+  if (!dateInput?.value || !timing) {
+    if (timing) timing.textContent = 'Choose a drop-off date to see your 11am delivery and 9am pickup timing.';
+    return;
+  }
+  const dropOff = new Date(`${dateInput.value}T12:00:00`);
+  const nights = Math.max(1, Number(nightsInput.value) || 1);
+  const pickup = new Date(dropOff);
+  pickup.setDate(pickup.getDate() + nights);
+  timing.textContent = `${nights} night${nights === 1 ? '' : 's'}: drop-off ${formatDate(dropOff)} at 11am · pickup ${formatDate(pickup)} at 9am.`;
 }
 
 function renderAvailability() {
@@ -165,6 +189,7 @@ function renderAvailability() {
     const day = event.target.closest('button.day:not([disabled])');
     if (!day) return;
     dateInput.value = day.dataset.date;
+    updateReservationSummary();
     document.getElementById('book').scrollIntoView({ behavior: 'smooth', block: 'start' });
     dateInput.focus({ preventScroll: true });
   });
@@ -172,4 +197,7 @@ function renderAvailability() {
 
 renderCart();
 renderAvailability();
+document.querySelector('input[name="date"]').addEventListener('change', updateReservationSummary);
+document.querySelector('input[name="nights"]').addEventListener('input', updateReservationSummary);
+updateReservationSummary();
 document.getElementById('yr').textContent = new Date().getFullYear();
